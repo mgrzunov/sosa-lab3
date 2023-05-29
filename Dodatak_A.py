@@ -2,6 +2,7 @@ import os
 import sys
 import getpass
 import unittest
+import ast
 import math
 
 class OperationsManager():
@@ -23,7 +24,7 @@ def login_success():
     print(ops_manager.perform_division())
  
     expression = input('Enter a mathematical formula to calculate: ')
-    print ("Result: ", eval(expression))
+    print ("Result: ", ast.literal_eval(expression))
 
 class TestOperationsManager(unittest.TestCase):
     def test_div(self):
@@ -47,7 +48,10 @@ class TestOperationsManager(unittest.TestCase):
 if __name__ == "__main__":
     user = input("Username: ")
     password = getpass.getpass("Password: ")
-    if user != "root" or password != "123":
+    password_file = open('passfile.txt', 'r')
+    root_password = password_file.read(5)
+    password_file.close()
+    if user != "root" or password != root_password:
         print("Wrong username or password!")
         exit(0)
     else:
